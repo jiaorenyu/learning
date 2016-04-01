@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<allocations>
+
+  <queue name="dmp">
+    <minResources>200000 mb,50vcores</minResources>
+    <maxResources>200000 mb,100vcores</maxResources>
+    <maxRunningApps>5</maxRunningApps>
+    <weight>1.0</weight>
+    <schedulingPolicy>fair</schedulingPolicy>
+    <minSharePreemptionTimeout>300</minSharePreemptionTimeout>
+  </queue>
+
+
+  <queue name="tong">
+    <minResources>1100000 mb, 600vcores</minResources>
+    <maxResources>2000000 mb, 900vcores</maxResources>
+    <maxRunningApps>50</maxRunningApps>
+    <weight>2.0</weight>
+    <schedulingPolicy>fifo</schedulingPolicy>
+    <minSharePreemptionTimeout>300</minSharePreemptionTimeout>
+  </queue>
+
+
+  <queue name="default">
+    <minResources>1000 mb,1vcores</minResources>
+    <maxResources>1000 mb,1vcores</maxResources>
+    <maxRunningApps>1</maxRunningApps>
+    <weight>1.0</weight>
+    <schedulingPolicy>fair</schedulingPolicy>
+    <minSharePreemptionTimeout>300</minSharePreemptionTimeout>
+  </queue>
+
+
+  <queue name="hadoop">
+    <minResources>1000 mb,1vcores</minResources>
+    <maxResources>1000 mb,1vcores</maxResources>
+    <maxRunningApps>1</maxRunningApps>
+    <weight>1.0</weight>
+    <schedulingPolicy>fair</schedulingPolicy>
+    <minSharePreemptionTimeout>300</minSharePreemptionTimeout>
+  </queue>
+  
+  <queue name="dmp-sgm">
+    <minResources>80000 mb,40vcores</minResources>
+    <maxResources>80000 mb,40vcores</maxResources>
+    <maxRunningApps>10</maxRunningApps>
+    <weight>1.0</weight>
+    <schedulingPolicy>fair</schedulingPolicy>
+    <minSharePreemptionTimeout>300</minSharePreemptionTimeout>
+  </queue>
+
+  <userMaxAppsDefault>50</userMaxAppsDefault>
+  <fairSharePreemptionTimeout>6000</fairSharePreemptionTimeout>
+  <defaultQueueSchedulingPolicy>fifo</defaultQueueSchedulingPolicy>
+
+</allocations>
