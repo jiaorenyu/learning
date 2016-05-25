@@ -25,7 +25,7 @@
 
   <property>
     <name>dfs.namenode.name.dir</name>
-    <value>file:///home/data1/hdfsdir/namenode</value>
+    <value>file:///alidata1/hdfsdir/namenode</value>
   </property>
 
   <property>
@@ -35,7 +35,7 @@
 
   <property>
     <name>dfs.datanode.data.dir</name>
-    <value>file:///home/data1/hdfsdir/data,file:///home/data2/hdfsdir/data,file:///home/data3/hdfsdir/data,file:///home/data4/hdfsdir/data,file:///home/data5/hdfsdir/data,file:///home/data6/hdfsdir/data,file:///home/data7/hdfsdir/data,file:///home/data8/hdfsdir/data,file:///home/data9/hdfsdir/data,file:///home/data10/hdfsdir/data,file:///home/data11/hdfsdir/data</value>
+    <value>file:///alidata1/hdfsdir/datanode,file:///alidata2/hdfsdir/datanode</value>
   </property>
 
   <property>
@@ -60,7 +60,7 @@
 
   <property>
     <name>dfs.domain.socket.path</name>
-    <value>/home/data1/hdfsdir/dn_socket</value>
+    <value>/alidata1/hdfsdir/dn_socket</value>
   </property>
 	
 
@@ -81,7 +81,7 @@
 
   <property>
     <name>dfs.block.local-path-access.user</name>
-    <value>hadoop,tong,admonitor,mbmonitor,supertool</value>
+    <value>dmp</value>
   </property>
 <!--
   <property>
@@ -118,32 +118,32 @@
 
   <property>
     <name>dfs.namenode.rpc-address.ns1.nn1</name>
-    <value>xxxx.mzhen.cn:8020</value>
+    <value>cldmp0:8020</value>
   </property>
 
   <property>
     <name>dfs.namenode.rpc-address.ns1.nn2</name>
-    <value>yyyy.mzhen.cn:8020</value>
+    <value>cldmp1:8020</value>
   </property>
 
   <property>
     <name>dfs.namenode.http-address.ns1.nn1</name>
-    <value>xxxx.mzhen.cn:50070</value>
+    <value>cldmp0:50070</value>
   </property>
 
   <property>
     <name>dfs.namenode.http-address.ns1.nn2</name>
-    <value>yyyy.mzhen.cn:50070</value>
+    <value>cldmp1:50070</value>
   </property>
 
   <property>
     <name>dfs.namenode.shared.edits.dir</name>
-    <value>qjournal://xxxx.mzhen.cn:8485;yyyy.mzhen.cn:8485;.mzhen.cn:8485/ns1</value>
+    <value>qjournal://cldmp0:8485;cldmp1:8485;cldmp2:8485/ns1</value>
   </property>
 
   <property>
     <name>dfs.journalnode.edits.dir</name>
-    <value>/home/data1/hdfsdir/journal</value>
+    <value>/alidata1/hdfsdir/journal</value>
   </property>
 
   <property>
@@ -158,7 +158,7 @@
 
   <property>
     <name>dfs.ha.fencing.ssh.private-key-files</name>
-    <value>/home/hadoop/.ssh/id_rsa</value>
+    <value>/home/dmp/.ssh/id_rsa</value>
   </property>
 
   <property>

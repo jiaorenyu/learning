@@ -1,0 +1,131 @@
+<configuration>
+<!-- Resource Manager Configs -->
+<property>
+<name>yarn.resourcemanager.connect.retry-interval.ms</name>
+<value>2000</value>
+</property>
+<property>
+<name>yarn.resourcemanager.ha.enabled</name>
+<value>true</value>
+</property>
+<property>
+<name>yarn.resourcemanager.ha.automatic-failover.enabled</name>
+<value>true</value>
+</property>
+<property>
+<name>yarn.resourcemanager.ha.automatic-failover.embedded</name>
+<value>true</value>
+</property>
+<property>
+<name>yarn.resourcemanager.cluster-id</name>
+<value>pseudo-yarn-rm-cluster</value>
+</property>
+<property>
+<name>yarn.resourcemanager.ha.rm-ids</name>
+<value>rm1,rm2</value>
+</property>
+<property>
+<name>yarn.resourcemanager.ha.id</name>
+<value>rm1</value>
+</property>
+<property>
+<name>yarn.resourcemanager.scheduler.class</name>
+<value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
+</property>
+<property>
+<name>yarn.resourcemanager.recovery.enabled</name>
+<value>true</value>
+</property>
+<property>
+<name>yarn.resourcemanager.store.class</name>
+<value>org.apache.hadoop.yarn.server.resourcemanager.recovery.MemoryRMStateStore</value>
+</property>
+<property>
+<name>yarn.resourcemanager.zk-address</name>
+ <value>cldmp0:2181,cldmp1:2181,cldmp2:2181</value>
+</property>
+<property>
+<name>yarn.app.mapreduce.am.scheduler.connection.wait.interval-ms</name>
+<value>5000</value>
+</property>
+<property>
+<name>yarn.resourcemanager.work-preserving-recovery.enabled</name>
+<value>true</value>
+</property>
+
+<!-- RM1 configs -->
+<property>
+<name>yarn.resourcemanager.address.rm1</name>
+ <value>cldmp0:8032</value>
+</property>
+<property>
+<name>yarn.resourcemanager.scheduler.address.rm1</name>
+ <value>cldmp0:8030</value>
+</property>
+<property>
+<name>yarn.resourcemanager.webapp.address.rm1</name>
+ <value>cldmp0:8088</value>
+</property>
+<property>
+<name>yarn.resourcemanager.resource-tracker.address.rm1</name>
+ <value>cldmp0:8031</value>
+</property>
+<property>
+<name>yarn.resourcemanager.admin.address.rm1</name>
+ <value>cldmp0:8033</value>
+</property>
+
+<!-- RM2 configs -->
+<property>
+<name>yarn.resourcemanager.address.rm2</name>
+ <value>cldmp1:8032</value>
+</property>
+<property>
+<name>yarn.resourcemanager.scheduler.address.rm2</name>
+ <value>cldmp1:8030</value>
+</property>
+<property>
+<name>yarn.resourcemanager.webapp.address.rm2</name>
+ <value>cldmp1:8088</value>
+</property>
+<property>
+<name>yarn.resourcemanager.resource-tracker.address.rm2</name>
+ <value>cldmp1:8031</value>
+</property>
+<property>
+<name>yarn.resourcemanager.admin.address.rm2</name>
+ <value>cldmp1:8033</value>
+</property>
+
+<!-- Node Manager Configs -->
+<property>
+<description>Address where the localizer IPC is.</description>
+<name>yarn.nodemanager.localizer.address</name>
+<value>0.0.0.0:23344</value>
+</property>
+<property>
+<description>NM Webapp address.</description>
+<name>yarn.nodemanager.webapp.address</name>
+<value>0.0.0.0:23999</value>
+</property>
+<property>
+<name>yarn.nodemanager.aux-services</name>
+<value>mapreduce_shuffle</value>
+</property>
+<property>
+<name>yarn.nodemanager.local-dirs</name>
+<value>/alidata1/hadoop-yarn/nm-local-dir,/alidata2/hadoop-yarn/nm-local-dir</value>
+</property>
+<property>
+<name>yarn.nodemanager.log-dirs</name>
+<value>/alidata1/hadoop-yarn/containers,/alidata2/hadoop-yarn/containers</value>
+</property>
+<property>
+<name>mapreduce.shuffle.port</name>
+<value>23080</value>
+</property>
+<property>
+<name>yarn.resourcemanager.work-preserving-recovery.enabled</name>
+<value>true</value>
+</property>
+</configuration>     

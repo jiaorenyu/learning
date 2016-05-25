@@ -75,17 +75,17 @@
 
   <property>
     <name>mapred.local.dir</name>
-    <value>/home/data1/mapred_tmp,/home/data2/mapred_tmp,/home/data3/mapred_tmp,/home/data4/mapred_tmp,/home/data5/mapred_tmp,/home/data6/mapred_tmp,/home/data7/mapred_tmp,/home/data8/mapred_tmp,/home/data9/mapred_tmp,/home/data10/mapred_tmp,/home/data11/mapred_tmp,/home/data12/mapred_tmp</value>
+    <value>/alidata1/mapred_tmp</value>
   </property>
 
   <property>
     <name>mapreduce.jobhistory.address</name>
-    <value>yyyy.mzhen.cn:10020</value>
+    <value>cldmp1:10020</value>
   </property>
 
   <property>
     <name>mapreduce.jobhistory.webapp.address</name>
-    <value>yyyy.mzhen.cn:19888</value>
+    <value>cldmp1:19888</value>
   </property>
 
    <property>

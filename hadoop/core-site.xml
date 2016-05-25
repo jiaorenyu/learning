@@ -20,7 +20,6 @@
   <property>
     <name>fs.defaultFS</name>
     <value>hdfs://ns1</value>
-<!--    <value>hdfs://k1201.mzhen.cn:8020</value>-->
   </property>
 
   <property>
@@ -35,9 +34,10 @@
 
   <property>
     <name>ha.zookeeper.quorum</name>
-    <value>xxxx.mzhen.cn:2181,yyyy.mzhen.cn:2181,zzzz.mzhen.cn:2181</value>
+    <value>cldmp0:2181,cldmp1:2181,cldmp2:2181</value>
   </property>
 <!--begin oozie-->
+<!--
   <property>
     <name>hadoop.proxyuser.supertool.hosts</name>
     <value>*</value>
@@ -47,7 +47,7 @@
     <name>hadoop.proxyuser.supertool.groups</name>
     <value>*</value>
   </property>
-
+-->
 <!--end oozie-->
 <property>
 <name>fs.hdfs.impl</name>
@@ -62,6 +62,6 @@
 
   <property>
 	<name>hadoop.tmp.dir</name>
-	<value>/home/data12/hadoop-tmp/hadoop-${user.name}</value>
+	<value>/alidata1/hadoop-tmp/hadoop-${user.name}</value>
   </property>
 </configuration>
