@@ -26,6 +26,20 @@ values=[
     [0,0,0,0,0,0,0,0,0]
     ]
 
+	
+guess_values=[
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0]
+    ]
+	
+
 
 def unfinish(data):
     for ldata in data:
@@ -117,8 +131,12 @@ def update_data(data, i, line_type):
             if v != 0:
                 continue
             pvalues = values[i][j]
+			if len(pvalues) == 0:
+				return False
             for pv in pvalues:
                 if happen_counts(row_values, pv) == 1:
+					if conflict(data, i, j, pv):
+						return False
                     data[i][j] = pv
                     values[i][j] = 0
                     update_values(values, pv, i, j)
@@ -135,12 +153,17 @@ def update_data(data, i, line_type):
             if v != 0:
                 continue
             pvalues = values[j][i]
+			if len(pvalues) == 0:
+				return False
             for pv in pvalues:
                 if happen_counts(col_values, pv) == 1:
+					if conflict(data, i, j, pv):
+						return False
                     data[j][i] = pv
                     values[j][i] = 0
                     update_values(values, pv, j, i)
                     break
+	return True
 
 def print_col(data, j):
     for i in range(len(data)):
@@ -150,7 +173,8 @@ def fill_lines(data):
     for i in range(len(data)):
         #print("old possible", values[i])
         #print("old", data[i])
-        update_data(data,i,"row")
+        if not update_data(data,i,"row"):
+			return False
         #print("new possible", values[i])
         #print("new", data[i])
     for j in range(len(data[0])):
@@ -158,11 +182,13 @@ def fill_lines(data):
         #print_col(values,j)
         #print("old data")
         #print_col(data,j)
-        update_data(data, j, "col")
+        if not update_data(data, j, "col"):
+			return False
         #print("new possible")
         #print_col(values,j)
         #print("new data")
         #print_col(data,j)
+	return True 
 
 def print_data(data, datatype="new data"):
     print(datatype)
@@ -191,48 +217,75 @@ def update_mat(data, i, j):
             if data[xx][yy] != 0:
                 continue
             pvalues = values[xx][yy]
+			if len(pvalues)==0:
+				return False
             for pv in pvalues:
                 if happen_counts(mat_values, pv) == 1:
+					if conflict(data, xx, yy, pv):
+						return False
                     data[xx][yy] = pv
                     values[xx][yy] = 0
                     update_values(values, pv, xx, yy)
                     break
-
+	return True
 
 def fill_mat(data):
     for i in range(3):
         for j in range(3):
             #print_data(data)
             #print_mat(1,1)
-            update_mat(data, i, j)
+            if not update_mat(data, i, j):
+				return False
+	return True 
 
-
-def scan(data):
-    data_new = copy.deepcopy(data)
+def cal_pvalues(data):
     for i in range(len(data)):
         for j in range(len(data[i])):
             if data[i][j] == 0:
                 values[i][j] = get_values(data,i,j)
+
+def scan(data):
+    data_new = copy.deepcopy(data)
+	
+	cal_pvalues(data)
+	
     #print_data(data)
     #print_data(values, "possible")
-    fill_lines(data_new)
+    if not fill_lines(data_new):
+		return [False, None] 
     #print_data(data_new)
-    fill_mat(data_new)
+    if not fill_mat(data_new):
+		return [False, None] 
     #print_data(data_new)
-    return data_new
+    return [True, data_new]
 
 
+	
+	
 def sudoku(array):
     counter = 0
     data = copy.deepcopy(array)
     ori = copy.deepcopy(array)
-    while(unfinish(data)):
-        counter += 1
-        print("counter",counter)
-        print_data(data)   
-        data_new = scan(data)
-        if data_new == data: break;
-        data = copy.deepcopy(data_new)
+	flag = True 
+	while (unfinish(data)):
+		flag=True
+		while(unfinish(data)):
+			counter += 1
+			print("counter",counter)
+			print_data(data)   
+			[stat, data_new] = scan(data)
+			if not stat:
+				flag = False 
+				break
+			if data_new == data: break;
+			data = copy.deepcopy(data_new)
+		if (unfinish(data)):
+			if flag:
+				guess(data)
+			else:
+				recover(data)
+				guess(data)
+		
     print_data(ori, "ori")
     print_data(data, "new")   
 if __name__=="__main__":
