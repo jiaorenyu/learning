@@ -26,7 +26,7 @@ values=[
     [0,0,0,0,0,0,0,0,0]
     ]
 
-	
+    
 guess_values=[
     [0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0],
@@ -38,13 +38,31 @@ guess_values=[
     [0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0]
     ]
-	
+    
 
 
 def unfinish(data):
     for ldata in data:
         for v in ldata:
             if v == 0:
+                return True
+    return False
+
+def conflict(data, i, j, pv):
+    for v in data[i]:
+        if pv == v:
+            return True
+    for x in range(len(data)):
+        if data[x][j] == pv:
+            return True
+    
+    for x in range(3):
+        for y in range(3):
+            xxi = i/3
+            yyj = j/3
+            xx = xxi*3+x
+            yy = yyj*3+y
+            if data[xx][yy] == pv:
                 return True
     return False
 
@@ -131,12 +149,12 @@ def update_data(data, i, line_type):
             if v != 0:
                 continue
             pvalues = values[i][j]
-			if len(pvalues) == 0:
-				return False
+            if len(pvalues) == 0:
+                return False
             for pv in pvalues:
                 if happen_counts(row_values, pv) == 1:
-					if conflict(data, i, j, pv):
-						return False
+                    if conflict(data, i, j, pv):
+                        return False
                     data[i][j] = pv
                     values[i][j] = 0
                     update_values(values, pv, i, j)
@@ -153,17 +171,17 @@ def update_data(data, i, line_type):
             if v != 0:
                 continue
             pvalues = values[j][i]
-			if len(pvalues) == 0:
-				return False
+            if len(pvalues) == 0:
+                return False
             for pv in pvalues:
                 if happen_counts(col_values, pv) == 1:
-					if conflict(data, i, j, pv):
-						return False
+                    if conflict(data, j,i, pv):
+                        return False
                     data[j][i] = pv
                     values[j][i] = 0
                     update_values(values, pv, j, i)
                     break
-	return True
+    return True
 
 def print_col(data, j):
     for i in range(len(data)):
@@ -174,7 +192,7 @@ def fill_lines(data):
         #print("old possible", values[i])
         #print("old", data[i])
         if not update_data(data,i,"row"):
-			return False
+            return False
         #print("new possible", values[i])
         #print("new", data[i])
     for j in range(len(data[0])):
@@ -183,12 +201,12 @@ def fill_lines(data):
         #print("old data")
         #print_col(data,j)
         if not update_data(data, j, "col"):
-			return False
+            return False
         #print("new possible")
         #print_col(values,j)
         #print("new data")
         #print_col(data,j)
-	return True 
+    return True 
 
 def print_data(data, datatype="new data"):
     print(datatype)
@@ -217,17 +235,17 @@ def update_mat(data, i, j):
             if data[xx][yy] != 0:
                 continue
             pvalues = values[xx][yy]
-			if len(pvalues)==0:
-				return False
+            if len(pvalues)==0:
+                return False
             for pv in pvalues:
                 if happen_counts(mat_values, pv) == 1:
-					if conflict(data, xx, yy, pv):
-						return False
+                    if conflict(data, xx, yy, pv):
+                        return False
                     data[xx][yy] = pv
                     values[xx][yy] = 0
                     update_values(values, pv, xx, yy)
                     break
-	return True
+    return True
 
 def fill_mat(data):
     for i in range(3):
@@ -235,8 +253,8 @@ def fill_mat(data):
             #print_data(data)
             #print_mat(1,1)
             if not update_mat(data, i, j):
-				return False
-	return True 
+                return False
+    return True 
 
 def cal_pvalues(data):
     for i in range(len(data)):
@@ -246,47 +264,94 @@ def cal_pvalues(data):
 
 def scan(data):
     data_new = copy.deepcopy(data)
-	
-	cal_pvalues(data)
-	
+    
+    cal_pvalues(data)
+    
     #print_data(data)
     #print_data(values, "possible")
     if not fill_lines(data_new):
-		return [False, None] 
+        return [False, None] 
     #print_data(data_new)
     if not fill_mat(data_new):
-		return [False, None] 
+        return [False, None] 
     #print_data(data_new)
     return [True, data_new]
 
 
-	
-	
+   
+
+status_save = []
+
+def get_min(values):
+    [i,j] = [0,0]
+    min_len = 10
+    for x in range(len(values)):
+        for y in range(len(values[0])):
+            if values[x][y] != 0:
+                if len(values[x][y]) < min_len:
+                    [i, j] = [x, y]
+                    min_len = len(values[x][y])
+    
+    return [i, j]
+
+def guess(data, values, status_save):
+    [i,j] = get_min(values)   
+        
+    if len(values[i][j]) == 0:
+        return False
+    pv = values[i][j].pop()
+    if len(values[i][j]) == 0:
+        values[i][j] = 0
+    status_save.append([i, j, copy.deepcopy(data), copy.deepcopy(values)])
+    data[i][j] = pv
+    return True
+
+def recover(data, values, status_save):
+    if len(status_save) == 0:
+        return False
+
+    [i,j, data, values] = status_save.pop()
+    
+    return True
+
 def sudoku(array):
     counter = 0
     data = copy.deepcopy(array)
     ori = copy.deepcopy(array)
-	flag = True 
-	while (unfinish(data)):
-		flag=True
-		while(unfinish(data)):
-			counter += 1
-			print("counter",counter)
-			print_data(data)   
-			[stat, data_new] = scan(data)
-			if not stat:
-				flag = False 
-				break
-			if data_new == data: break;
-			data = copy.deepcopy(data_new)
-		if (unfinish(data)):
-			if flag:
-				guess(data)
-			else:
-				recover(data)
-				guess(data)
-		
+    flag = True 
+    while (unfinish(data)):
+        flag=True
+        while(unfinish(data)):
+            counter += 1
+            print("counter",counter)
+            print_data(data)   
+            [stat, data_new] = scan(data)
+            if not stat:
+                flag = False 
+                break
+            if data_new == data: break;
+            data = copy.deepcopy(data_new)
+        if (unfinish(data)):
+            if flag:
+                if not guess(data, values, status_save):
+                    if not recover(data, values, status_save):
+                        return False
+            else:
+                if not recover(data, values, status_save):
+                    return False
+                if not guess(data, values, status_save):
+                    if not recover(data, values, status_save):
+                        return False
+                    
+        
     print_data(ori, "ori")
     print_data(data, "new")   
+
+    return True
+
 if __name__=="__main__":
     result=sudoku(array)
+    if result:
+        print("OK")
+    else:
+        print("Failed")
