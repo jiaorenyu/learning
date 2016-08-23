@@ -1,6 +1,12 @@
-a = {
-    "1":"2", \
-    "2":"3" 
-    }
+from param import counter
 
-print(a)
+
+def add():
+    global counter
+    counter += 1
+
+if __name__ == "__main__":
+    print(counter)
+    add()
+    print(counter)
+

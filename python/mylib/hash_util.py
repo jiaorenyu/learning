@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+#-*- coding:utf8 -*-
 import hashlib
 
 #16进制md5加密,32个大写字符.
