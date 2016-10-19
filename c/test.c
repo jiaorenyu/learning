@@ -8,11 +8,12 @@ void test1(char *value) {
 	value = (char *) calloc(10, 1);
 }
 
+#define TMP "Hello %s!"
 
 int main() 
 {	
-	char *value;
-	test1(value);
-	free(value);
+	char tmp[100];
+	sprintf(tmp, TMP);
+	printf("%s", tmp);
 	return 0;
 }
