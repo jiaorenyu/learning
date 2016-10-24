@@ -9,12 +9,15 @@
 
 using namespace std;
 
+#define TEST "http:\\/\\/www.baidu.com/a.gif"
+
 int main() {
-	int deal_id_int = 975;
-	stringstream ss;
-	ss << deal_id_int;
-	string deal_id = ss.str();
-	
-	cout << deal_id << endl;
+	/*
+	string test = string("abc__LOGO__");
+	test.replace(test.find("__LOGO__"), strlen("__LOGO__"), "mzlog");
+	cout << test << endl;
+	*/
+
+	printf("%s\n", TEST);
 	return 0;
 }

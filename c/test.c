@@ -10,9 +10,8 @@ void test1(char *value) {
 
 
 int main() 
-{	
-	char *value;
-	test1(value);
-	free(value);
+{		
+	char tmp[10] = "\"abc\":1";
+	printf("%s\n", tmp);
 	return 0;
 }
