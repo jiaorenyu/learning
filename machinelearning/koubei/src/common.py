@@ -243,7 +243,7 @@ def get_latest_sample_pay(start_date, end_date, pay_action_count, formatstr="%Y-
 
     return pay
 
-def get_latest_sample(start_date, end_date, pay_action_count, view_action_count, formatstr="%Y-%m-%d"):
+def get_latest_sample(start_date, end_date, predict_no,  pay_action_count, view_action_count, formatstr="%Y-%m-%d"):
     date_list = date_util.get_date_list(start_date, end_date, "%Y-%m-%d")
     
     view = []
@@ -254,12 +254,26 @@ def get_latest_sample(start_date, end_date, pay_action_count, view_action_count,
 
         pay.append(pay_count)
         view.append(view_count)
+    
+    day = date_util.next_ndays(predict_no-1, end_date)
 
-    return view + pay
+    real_pay_count = pay_action_count[day] if day in pay_action_count else '0'
+
+    return view + pay, real_pay_count
 
 def post_handle(value):
     value = 0 if value < 0 else int(value)
     return value
+
+def shop_cost(predict_list, real_list):
+    cost = 0
+    for i in range(len(predict_list)):
+        predict = predict_list[i]
+        real = real_list[i]
+
+        cost += abs(predict - real)*1.0/(predict + real)
+
+    return cost/len(predict_list)
 
 def handle_predict_v2(shop_id, pay_fn, view_fn, start_date, end_date):
     pay_action_count = load_action_stat(pay_fn)
@@ -268,17 +282,20 @@ def handle_predict_v2(shop_id, pay_fn, view_fn, start_date, end_date):
     predict_count_sample = handle_sample_v2(7, 14, pay_action_count, view_action_count, start_date, end_date, "%Y-%m-%d")
 
     predict_list = []
-
+    real_list = []
     for predict_no, sample_list in predict_count_sample.items():
         p = train.train(sample_list)
         
         if p == None:
             predict_list.append(0)
             continue
-        sample = get_latest_sample("2016-10-25", "2016-11-01", pay_action_count, view_action_count)
+        sample, real_pay_count = get_latest_sample("2016-10-11", "2016-10-18", predict_no, pay_action_count, view_action_count)
+        
         sample = map(int, sample)
         rt = np.sum(np.multiply(p, sample))
         predict_list.append(rt)
+        real_list.append(int(real_pay_count))
+
 
     predict_list = map(post_handle, predict_list)
     
@@ -291,6 +308,11 @@ def handle_predict_v2(shop_id, pay_fn, view_fn, start_date, end_date):
     if len(result) != 15:
         print("error")
     print(",".join(result))
+
+    cost = shop_cost(predict_list, real_list)   
+
+    return cost
+
 
 def handle_predict(shop_id, pay_fn, view_fn, start_date, end_date):
     pay_action_count = load_action_stat(pay_fn)

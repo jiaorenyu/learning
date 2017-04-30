@@ -5,6 +5,7 @@ import numpy as np
 from scipy.optimize import leastsq
 import pylab as pl
 
+import random
 
 def func(x, p):
     """
@@ -64,7 +65,5 @@ def train(samples):
     try:
         plsq = leastsq(residuals, p0, args=(y, x))
     except Exception, e:
-        print(e)
-        print(x[0], y[0])
         return None
     return plsq[0]
